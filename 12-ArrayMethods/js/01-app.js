@@ -1,3 +1,5 @@
+// .some
+
 const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'];
 
 const carrito = [
@@ -8,3 +10,24 @@ const carrito = [
     { nombre: 'Teclado', precio: 400 },
     { nombre: 'Celular', precio: 700 },
 ]
+
+// Comprobar si un valor existe en un arreglo
+meses.forEach( mes => {
+    if(mes === 'Enero') {
+        console.log('Sí existe Enero');
+    }
+});
+
+// Con un array method
+const resultado = meses.includes('Abril');
+console.log(resultado);
+
+// Pero en un Arreglo de objetos includes no servirá
+// En su lugar se utiliza .some
+const existe = carrito.some( producto => producto.nombre === 'Tablet');
+console.log(existe);
+
+// .some también sirve para el arreglo tradicional de índices
+const tradicional = meses.some( mes => mes === 'Diciembre');
+console.log(tradicional);
+
