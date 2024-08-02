@@ -1,3 +1,8 @@
+// Prevenir Event Bubbling con un método
+
+// Esta técnica funciona bien cuando se genera contenido con HTML, común al consumir APIs
+
+
 // Evitar la propagación con contenido creado...
 const parrafo1 = document.createElement('P');
 parrafo1.textContent = 'Concierto';
@@ -13,21 +18,38 @@ parrafo2.classList.add('titulo');
 const parrafo3 = document.createElement('p');
 parrafo3.textContent = '$800 por persona';
 parrafo3.classList.add('precio');
+            // Sin parametros o argumento
+// parrafo3.onclick = nuevaFuncion;       
+            // Si queremos pasarle un parametro, forma común, también podría ser () =>
+parrafo3.onclick = function () {
+    nuevaFuncion(1);
+}                   
 
 // crear el div...
 const info = document.createElement('div');
 info.classList.add('info');
+info.onclick = function (e) {
+    if(e.target === info) {
+        infoFuncion(); 
+    }
+}
 info.appendChild(parrafo1)
 info.appendChild(parrafo2)
 info.appendChild(parrafo3);
 
-// Vamos a crear la imagen
+// Vamos a crear la imagen 
 const imagen = document.createElement('img');
 imagen.src = 'img/hacer2.jpg';
 
 // Crear el Card..
 const contenedorCard = document.createElement('div');
-contenedorCard.classList.add('contenedorCard');
+contenedorCard.classList.add('card');
+contenedorCard.onclick = function (e) {
+    if (e.target === contenedorCard) {
+        cardFuncion();
+    }
+}
+
 
 // Vamos a asignar la imagen al card...
 contenedorCard.appendChild(imagen);
@@ -38,3 +60,19 @@ contenedorCard.appendChild(info);
 // Insertarlo en el HTML...
 const contenedor = document.querySelector('.hacer .contenedor-cards');
 contenedor.appendChild(contenedorCard); // al inicio info
+
+
+
+            // Función o método
+function nuevaFuncion(id) {
+    console.log('desde nueva funcion', id);
+}
+
+function infoFuncion() {
+    console.log('desde info');
+}
+
+function cardFuncion() {
+    console.log('desde card');
+} 
+
