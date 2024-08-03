@@ -18,7 +18,7 @@ enlace.classList.add('alguna-clase');
 //     alert('Diste Click');
 // }
 
-// Seleccionar la nevagción
+// Seleccionar la nevegción
 const navegacion = document.querySelector('.navegacion');
 // navegacion.appendChild(enlace); // agregar hijo (lo coloca al final)
 
@@ -63,6 +63,7 @@ card.appendChild(imagen);
 card.appendChild(info);
 
 // Insertar en el HTML al medio del contenedor-cards
-const contenedor = document.querySelector('.hacer .contenedor-cards'); // Se refiere al hijo de hacer que es el div contenedor-cardss
+const contenedor = document.querySelector('.hacer .contenedor-cards'); // Se refiere al hijo de hacer que es el div contenedor-cards
 // contenedor.appendChild(card); // Agrega al final
 contenedor.insertBefore(card, contenedor.children[2]);
+
