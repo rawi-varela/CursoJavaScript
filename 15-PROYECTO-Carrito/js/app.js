@@ -38,14 +38,36 @@ function agregarCurso(e) {
 function eliminarCurso(e) {
     if(e.target.classList.contains('borrar-curso')) {
         const cursoId = e.target.getAttribute('data-id');
-        // console.log(e.target);
 
-        // Elimina del arreglo de articulosCarrito por el data-id
-        articulosCarrito = articulosCarrito.filter( curso  => curso.id !== cursoId);
+        // Buscamos el curso en el carrito
+        const curso = articulosCarrito.find(curso => curso.id === cursoId);
 
+        // Verificar si la cantidad es mayor a 1
+        if(curso.cantidad > 1) {
+            curso.cantidad--;
+            // return curso; // No necesario porque con .find se obtiene una referencia al objeto que está en el array articulosCarrito
+            // Esto significa que curso no es una copia del objeto en articulosCarrito, sino una referencia al mismo objeto en memoria. Cualquier cambio a curso se reflejará automáticamente en articulosCarrito porque ambos apuntan al mismo lugar en memoria.
+        } else {
+            // Elimina del arreglo de articulosCarrito por el data-id
+            articulosCarrito = articulosCarrito.filter( curso  => curso.id !== cursoId);
+        }
+        
         carritoHTML(); // Iterar sobre el carrito y mostrar su HTML
+         
     }
 }
+// // Elimina un curso del carrito
+// function eliminarCurso(e) {
+//     if(e.target.classList.contains('borrar-curso')) {
+//         const cursoId = e.target.getAttribute('data-id');
+//         // console.log(e.target);
+
+//         // Elimina del arreglo de articulosCarrito por el data-id
+//         articulosCarrito = articulosCarrito.filter( curso  => curso.id !== cursoId);
+
+//         carritoHTML(); // Iterar sobre el carrito y mostrar su HTML
+//     }
+// }
 
 // Leer el contenido del HTML al que le dimos cick y extraer la info
 function leerDatosCurso(curso) {
@@ -69,7 +91,7 @@ function leerDatosCurso(curso) {
                 curso.cantidad++;
                 return curso; // Retorna el objeto actualizado
             } else {
-                return curso; // Retorna lso objetos que no son los duplicados
+                return curso; // Retorna los objetos que no son los duplicados
             }
         });
         articulosCarrito = [...cursos]; // Agregamos el duplicado
