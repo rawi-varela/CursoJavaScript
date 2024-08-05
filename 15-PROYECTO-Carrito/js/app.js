@@ -5,6 +5,7 @@ const carrito = document.querySelector('#carrito');
 const contenedorCarrito = document.querySelector('#lista-carrito tbody');
 const vaciarCarritoBtn = document.querySelector('#vaciar-carrito');
 const listaCursos = document.querySelector('#lista-cursos');
+const notificacionCarrito = document.querySelector('#notificacion-carrito'); // Para notificacción de cantidad
 let articulosCarrito = [];
 
 // Function para registrar todos los eventListener
@@ -19,8 +20,8 @@ function cargarEventListeners() {
     // Vaciar el carrito
     vaciarCarritoBtn.addEventListener('click', () => {
         articulosCarrito = []; // Resetear el arreglo
-
         limpiarHTML(); // Eliminar todo el HTML
+        actualizarNotificacion(); // Resetear notificación
     });
 }
 
@@ -30,8 +31,19 @@ function agregarCurso(e) {
     e.preventDefault();
     if(e.target.classList.contains('agregar-carrito')) {
         const cursoSeleccionado = e.target.parentElement.parentElement;
-        leerDatosCurso(cursoSeleccionado)
+        leerDatosCurso(cursoSeleccionado);
     }
+}
+
+function actualizarNotificacion() {
+    const cantidad = articulosCarrito.length;
+    if (cantidad > 0) {
+        notificacionCarrito.dataset.cantidadnotificacion = cantidad; //valor del atributo data-cantidadnotificacion = cantidad
+        notificacionCarrito.classList.add('notificacion-carrito--visible');
+    } else {
+        notificacionCarrito.classList.remove('notificacion-carrito--visible');
+    }
+    // dataset es propiedad del DOM, permite acceder y manipular los atributos de datos personalizados (data attributes) de un elemento
 }
 
 // Elimina un curso del carrito
@@ -51,9 +63,7 @@ function eliminarCurso(e) {
             // Elimina del arreglo de articulosCarrito por el data-id
             articulosCarrito = articulosCarrito.filter( curso  => curso.id !== cursoId);
         }
-        
         carritoHTML(); // Iterar sobre el carrito y mostrar su HTML
-         
     }
 }
 // // Elimina un curso del carrito
@@ -129,6 +139,7 @@ function carritoHTML() {
         // Agregar el HTML del carrito en el tbody
         contenedorCarrito.appendChild(row);
     });
+    actualizarNotificacion();
 }
  
 
