@@ -180,3 +180,27 @@ display: block;
 margin-bottom: 10px;
 text-decoration: none;
 }
+
+
+/* Para Notificación */
+.notificacion-carrito {
+	visibility: hidden;
+}
+.notificacion-carrito--visible {
+	visibility: visible;
+}
+.notificacion-carrito::before {
+	content: attr(data-cantidadnotificacion);
+    /* attr() es una función CSS que se utiliza para obtener el valor de un atributo de un elemento HTML y usarlo dentro de una regla CSS, necesario el "data-" */
+	position: absolute;
+	top: -1rem;
+	left: 22px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: #eb4545;
+	color: white;
+	text-align: center;
+	line-height: 20px;
+}
+ 
