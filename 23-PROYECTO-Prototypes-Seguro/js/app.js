@@ -123,10 +123,17 @@ UI.prototype.mostrarResultado = (total, seguro) => {
     // Mostrar el spinner
     const spinner = document.querySelector('#cargando');
     spinner.style.display = 'block';
+    // Bloquear submit
+    const btnSubmit = document.querySelector('form button[type="submit"]');
+    btnSubmit.classList.add('cursor-not-allowed', 'opacity-50');
+    btnSubmit.disabled = true;
 
     setTimeout(() => {
-        spinner.style.display = 'none';
+        spinner.style.display = 'none'; // Ocultar spinner
         resultadoDiv.appendChild(div);
+        // Desbloquear submit
+        btnSubmit.disabled = false;
+        btnSubmit.classList.remove('cursor-not-allowed', 'opacity-50');
     }, 2000);
     
 }
@@ -151,22 +158,22 @@ function cotizarSeguro(e) {
     const year = document.querySelector('#year').value;
     const tipo = document.querySelector('input[name="tipo"]:checked').value; //RadioButton tienen mismo name, seleccionado
 
+    // Ocultar las cotizaciones previas
+    const resultados = document.querySelector('#resultado div');
+    if(resultados) {
+        resultados.remove();
+    }
+
     if(marca === '' || year === '' || tipo === ''){
         ui.mostrarMensaje('Todos los campos son obligatorios', 'error');
         return;
     } 
     ui.mostrarMensaje('Cotizando...', 'exito')
 
-    // Ocultar las cotizaciones previas
-    const resultados = document.querySelector('#resultado div');
-    if(resultados != null) {
-        resultados.remove();
-    }
-
     // Instanciar el seguro
     const seguro = new Seguro(marca, year, tipo);
     const total = seguro.cotizarSeguro(); // Devuelve la cantidad de cotización
-
+ 
     // Utilizar el prototype que va a cotizar
     ui.mostrarResultado(total, seguro);
 }
