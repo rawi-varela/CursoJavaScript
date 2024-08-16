@@ -168,7 +168,7 @@ function agregarGasto(e) {
     const nombre = document.querySelector('#gasto').value;
     const cantidad = Number(document.querySelector('#cantidad').value);
 
-    if(nombre === '' || cantidad === '') {
+    if(nombre.trim() === '' || cantidad === '') {
         ui.showAlert('Todos los campos son obligatorios','error');
         return;
     } else if(cantidad <= 0 || isNaN(cantidad)) {
