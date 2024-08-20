@@ -1,5 +1,6 @@
 // Añadir funciones en un Objeto 
-// Métodos de propiedad - Son funciones con una sintaxis que al utilizarla es lo mismo que un método, llegan a ser muy comunes porque es un objeto grande que contiene todas las funciones
+// Métodos de propiedad - Son funciones con una sintaxis que al utilizarla es lo mismo que un método, 
+// llegan a ser muy comunes porque es un objeto grande que contiene todas las funciones
 
 
 const reproductor = {
