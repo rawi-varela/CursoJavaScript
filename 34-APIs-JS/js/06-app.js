@@ -1,48 +1,46 @@
-// Speech API
-// Reconocer voz
-
 const salida = document.querySelector('#salida');
 const microfono = document.querySelector('#microfono');
 
-microfono.addEventListener('click', ejecutarSpeechAPI);
+ microfono.addEventListener('click', ejecutarSpeechAPI);
 
 function ejecutarSpeechAPI() {
-    const SpeechRecognition = webkitSpeechRecognition;
+
+    const SpeechRecognition =  webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
 
-    // Establecer el idioma a español
-    recognition.lang = 'es-ES';
-    
+    // start recognition
     recognition.start();
 
+
+    // This runs when the speech recognition service starts
     recognition.onstart = function() {
         salida.classList.add('mostrar');
-        salida.textContent = 'Escuchando...';
-    }
-
+        salida.innerHTML = "Escuchando...";
+    };
+    
     recognition.onspeechend = function() {
-        salida.textContent = 'Se dejó de grabar...';
+        salida.innerHTML = "Se detuvo de ejecutar";
         recognition.stop();
-    }
-
+    };
+  
+    // This runs when the speech recognition service returns result
     recognition.onresult = function(e) {
-        // console.log(e.results);
-        console.log(e.results[0][0]);
 
-        const { confidence, transcript } = e.results[0][0];
+        console.log(e.results);
 
-        const speech = document.createElement('P');
+        var transcript = e.results[0][0].transcript;
+        var confidence = e.results[0][0].confidence;
+
+
+        const speech = document.createElement('p');
         speech.innerHTML = `Grabado: ${transcript}`;
 
-        const seguridad = document.createElement('P');
-        seguridad.innerHTML = `Grabado: ${parseInt(confidence * 100)}%`;
+        const seguridad = document.createElement('p');
+        seguridad.innerHTML =  `Seguridad:  ${ parseInt( confidence*100) } %`;
 
         salida.appendChild(speech);
         salida.appendChild(seguridad);
-    }
-}
+    };
+  
 
-// Arrancar el recognition
-// Comenzar a escuchar
-// Cuando el usuario termina a hablar
-// Mostrar resultado
+}

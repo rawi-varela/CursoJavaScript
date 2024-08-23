@@ -6,7 +6,7 @@ document.addEventListener('visibilitychange', () => {
     // console.log(document.visibilityState);
     if(document.visibilityState === 'visible') {
         console.log('Ejecutar función para reprodcir el video');
-    } else {
+    } else { 
         console.log('Pausar el video');
     }
 });
