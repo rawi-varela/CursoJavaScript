@@ -21,8 +21,8 @@ const cliente = obtenerCliente();
 cliente();
 
 // Cuando se asgina const cliente = obtenerCliente();, cliente se convierte en una referencia a la función muestraNombre.
-
 // Al llamar a cliente(), estás ejecutando muestraNombre, que aún tiene acceso a la variable nombre definida en obtenerCliente.
+
 
 // Otro ejemplo
 function crearContador() {
