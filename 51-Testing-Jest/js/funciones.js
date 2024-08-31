@@ -122,5 +122,10 @@ export function cargarEdicion(cita) {
     formulario.querySelector('button[type="submit"]').textContent = 'Guardar Cambios';
 
     editando = true;
-
 }
+
+// Para agregarla al test de funciones
+export function suma(a, b) {
+    return a + b;
+}
+

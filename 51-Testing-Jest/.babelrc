@@ -1,0 +1,8 @@
+{
+    "presets": [
+      [ "@babel/preset-env", { "targets": { "node": "current" } } ]
+    ]
+}
+
+// Esta configuracion permite inyectarle imports a un proeycto de node que solo soporta la sintaxis de comandojs
+// "babel-jest": "^26.3.0",

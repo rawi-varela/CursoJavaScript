@@ -1,0 +1,19 @@
+{
+  "name": "51-testing-jest",
+  "version": "1.0.0",
+  "description": "Aprendiendo JEST",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Rawi Alejandro Varela",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.25.4",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  }
+}
