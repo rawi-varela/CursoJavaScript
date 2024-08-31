@@ -52,7 +52,9 @@
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <script src="js/app.js" defer></script>
+    <!-- async descarga y ejecuta inmediatamente, no es ideal si el JS modifica el HTML -->
+     <!-- defer no ejecuta el código del script hasta que el HTML esté listo -->
     
 </body>
 </html>

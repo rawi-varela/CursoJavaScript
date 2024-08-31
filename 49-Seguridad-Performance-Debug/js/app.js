@@ -1,3 +1,4 @@
+// 
 const criptomonedasSelect = document.querySelector('#criptomonedas');
 const monedaSelect = document.querySelector('#moneda');
 const formulario = document.querySelector('#formulario');
@@ -8,7 +9,9 @@ const objBusqueda = {
     criptomoneda: ''
 };
 
-// Promises
+// El Promise resuleve cuando se han cargado las criptomonedas correctamente
+// En este caso es un poco innecesaria, ya que lo único que hace es resolver, no hay
+// lógica adicional o alguna operación asíncrona real
 const obtenerCriptomonedas = criptomonedas => new Promise( resolve => {
     resolve(criptomonedas);
 });
@@ -22,34 +25,51 @@ document.addEventListener('DOMContentLoaded', () => {
     monedaSelect.addEventListener('change', leerValor);
 });
 
-// Consulta la API par aobtener un listado de Criptomonedas
+// Consulta la API para llenar el Select de Criptomonedas
 function consultarCriptomonedas() {
 
-    // Ir  AtoPLISTS Y Despues market capp 
+    // Traer las 10 más relevantes
     const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD';
 
     fetch(url)
-        .then( respuesta => respuesta.json()) // Consulta exitosa...
-        .then( resultado => obtenerCriptomonedas(resultado.Data)) // 
+        .then( respuesta => respuesta.json()) 
+        .then( resultado => obtenerCriptomonedas(resultado.Data)) // solo resultado.Data funciona
         .then( criptomonedas  =>  selectCriptomonedas(criptomonedas) )
         .catch( error => console.log(error));
 }
-// llena el select 
+
 function selectCriptomonedas(criptomonedas) {
 
-    criptomonedas.forEach( cripto => {
-        const { FullName, Name } = cripto.CoinInfo;
+    // Conocwr el tiempo de ejecución
+    const inicio = performance.now();
+
+    // criptomonedas.forEach( cripto => {
+    //     const { FullName, Name } = cripto.CoinInfo;
+    //     const option = document.createElement('option');
+    //     option.value = Name;
+    //     option.textContent = FullName;
+        
+    //     criptomonedasSelect.appendChild(option);
+    // });
+
+    for(let i = 0; i < criptomonedas.length; i++) {
+        const { FullName, Name } = criptomonedas[i].CoinInfo;
         const option = document.createElement('option');
         option.value = Name;
         option.textContent = FullName;
-        // insertar el HTML
+        
         criptomonedasSelect.appendChild(option);
-    });
+    }
 
+    const fin = performance.now();
+
+    console.log('inicio', inicio);
+    console.log('fin' ,fin);
+
+    console.log(fin - inicio);
 }
 
-
-function leerValor(e)  {
+function leerValor(e) {
     objBusqueda[e.target.name] = e.target.value;
 }
 
@@ -57,39 +77,34 @@ function submitFormulario(e) {
     e.preventDefault();
 
     // Extraer los valores
-    const { moneda, criptomoneda} = objBusqueda;
+    const { moneda, criptomoneda} = objBusqueda;
 
-    if(moneda === '' || criptomoneda === '') {
+    if(moneda.trim() === '' || criptomoneda.trim() === '') {
         mostrarAlerta('Ambos campos son obligatorios');
         return;
     }
 
-
     consultarAPI();
 }
 
-
 function mostrarAlerta(mensaje) {
-        // Crea el div
+    const existeAlerta = document.querySelector('.error');
+    if(!existeAlerta) {
         const divMensaje = document.createElement('div');
         divMensaje.classList.add('error');
         
-        // Mensaje de error
         divMensaje.textContent = mensaje;
 
-        // Insertar en el DOM
-       formulario.appendChild(divMensaje);
+        formulario.appendChild(divMensaje);
 
-        // Quitar el alert despues de 3 segundos
         setTimeout( () => {
             divMensaje.remove();
         }, 3000);
+    }
 }
 
-
 function consultarAPI() {
-
-    const { moneda, criptomoneda} = objBusqueda;
+    const { moneda, criptomoneda } = objBusqueda;
 
     const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`;
 
@@ -98,20 +113,15 @@ function consultarAPI() {
     fetch(url)  
         .then(respuesta => respuesta.json())
         .then(cotizacion => {
+            // Se pasan [][] debido a que el "key" que devuelve la API cambia
             mostrarCotizacionHTML(cotizacion.DISPLAY[criptomoneda][moneda]);
-        });
-
+    });
 }
 
 function mostrarCotizacionHTML(cotizacion) {
-
     limpiarHTML();
 
-    console.log(cotizacion);
-    const  { PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR, LASTUPDATE } = cotizacion;
-
-
-    debugger;
+    const  { PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR, LASTUPDATE } = cotizacion;
 
     const precio = document.createElement('p');
     precio.classList.add('precio');
@@ -129,34 +139,43 @@ function mostrarCotizacionHTML(cotizacion) {
     const ultimaActualizacion = document.createElement('p');
     ultimaActualizacion.innerHTML = `<p>Última Actualización: <span>${LASTUPDATE}</span></p>`;
 
-    debugger;
+    // debugger;
+    // En vez de usar console.log, para ver que funciones y valores están disponibles
 
     resultado.appendChild(precio);
     resultado.appendChild(precioAlto);
     resultado.appendChild(precioBajo);
     resultado.appendChild(ultimasHoras);
     resultado.appendChild(ultimaActualizacion);
-
-    formulario.appendChild(resultado);
 }
 
-function mostrarSpinner() {
-    limpiarHTML();
-
-    const spinner = document.createElement('div');
-    spinner.classList.add('spinner');
-
-    spinner.innerHTML = `
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>    
-    `;
-
-    resultado.appendChild(spinner);
-}
 
 function limpiarHTML() {
     while(resultado.firstChild) {
         resultado.removeChild(resultado.firstChild);
     }
-  }
+}
+
+function mostrarSpinner() {
+    limpiarHTML();
+
+    const spinner = document.createElement('DIV');
+    spinner.classList.add('spinner');
+
+    spinner.innerHTML = `
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    `;
+
+    resultado.appendChild(spinner);
+}
+
+// El Spinner se limpia solo del div.resultado por la función mostrarCotizacionHTML()
+
+
+// Ofuscar el código, de preferencia cuando sea poco
+// Validar forms en cliente y servidor
+// Lo más usado para autenticación de users es JWT o Auth0
+// Usar snk.io para verificar vulnerabilidades al trabajar con dependencias
+// Hashear info sensible con la librería bcrypt
